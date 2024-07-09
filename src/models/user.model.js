@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import mongoose from "mongoose"
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"]
+        required: [true, 'Password is required']
     },
     watchHistory: [
         {
@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema({
     },
     refreshToken: {
         type: String,
-        required: true
+        // required: true
     }
 }, {timestamps: true})
 
@@ -59,7 +59,7 @@ userSchema.methods.isPasswordCorrect = async function(password){
 }
 
 userSchema.methods.generateAccessToken = function() {
-    const token = jwt.sign(
+    const acToken = jwt.sign(
         {
             _id: this._id,
             email: this.email,
@@ -72,10 +72,10 @@ userSchema.methods.generateAccessToken = function() {
         }
     )        //syntax--> jwt.sign(payload(object), secret_key, expiry(object))
 
-    return token
+    return acToken
 }
 userSchema.methods.generateRefreshToken = function() {
-    const token = jwt.sign(
+    const refToken = jwt.sign(
         {
             _id: this._id,
         },
@@ -85,7 +85,7 @@ userSchema.methods.generateRefreshToken = function() {
         }
     )        //syntax--> jwt.sign(payload(object), secret_key, expiry(object))
 
-    return token
+    return refToken
 }
 
 

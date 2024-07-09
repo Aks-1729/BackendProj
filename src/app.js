@@ -20,4 +20,4 @@ import userRouter from "./routes/user.routes.js"        //ese man chaha name dek
 //routes:
 app.use("/api/v1/users", userRouter)
 
-export default app
+export { app }
